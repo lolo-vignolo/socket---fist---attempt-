@@ -14,40 +14,10 @@
   </head>
   <body>
     <div class="container">
-        <h1 class="mt-5">mini Chat</h1>
+        <h1 class="mt-5">Web Socket acceso denegado</h1>
         <hr />
     
-        <form id="miFormulario">
-            <div class="row">
-              <div class="col-8">
-                <input
-                  type="text"
-                  id="txtMessaje"
-                  placeholder="Mensaje"
-                  class="form-control"
-                />
-              </div>
-              <div class="col-4">
-                <button type="submit" class="btn btn-primary">
-                  Enviar
-                </button>
-            </div>
-          </form>
-
-          <div class="row">
-
-            <div class="col mt-2">
-
-                <ul id="misMensajes">
-
-
-                </ul>
-
-            </div>
-          </div>
-
-    </div>
-
+        
     <script
       src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.5.1/socket.io.js"
       integrity="sha512-9mpsATI0KClwt+xVZfbcf2lJ8IFBAwsubJ6mI3rtULwyM3fBmQFzj0It4tGqxLOGQwGfJdk/G+fANnxfq9/cew=="
@@ -56,27 +26,20 @@
     ></script>
 
     <script>
-      const socket = io('https://websocket-server-base.herokuapp.com/');
-
-        //referencia elementos del DOM
-
-        const formulario = document.getElementById('miFormulario');
-        const mensajes = document.getElementById('misMensajes');
-        const txtMensaje = document.getElementById('txtMessaje');
-
-        formulario.addEventListener('submit', (e) => {
-            e.preventDefault();
-            const nvoMensaje = txtMensaje.value;
-            socket.emit('mensaje-to-server', {texto: nvoMensaje});
-            txtMensaje.value = '';
-            txtMensaje.focus();  
-          
+      const socket = io('http://localhost:8080');
+      socket.on('connect', () => {
+            console.log("conectado");
         });
+
+
         socket.on('mensaje-from-server', (data) => {
-            const nvoMensaje = document.createElement('li');
-            nvoMensaje.innerText = data.texto;
-            mensajes.appendChild(nvoMensaje);
+            console.log(data);
         });
+
+     
+
+          
+  
 
 
         //ESCUCHAR EVENTO 
